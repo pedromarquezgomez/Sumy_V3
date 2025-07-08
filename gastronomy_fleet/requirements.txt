@@ -1,0 +1,8 @@
+google-adk
+uvicorn
+langchain
+langchain-community
+langchain-google-vertexai
+faiss-cpu
+python-dotenv
+google-cloud-storage 
