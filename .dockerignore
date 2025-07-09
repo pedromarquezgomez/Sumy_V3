@@ -18,10 +18,9 @@ __pycache__/
 .DS_Store
 Thumbs.db
 
-# Base de datos local y índices
+# Base de datos local
 sessions.db
 sessions.db-journal
-*_index/
 
 # Archivos de entorno que contienen secretos
 .env 

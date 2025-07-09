@@ -1,14 +1,14 @@
 # nutrition_agent/agent.py
 import os
 from google.adk.agents import Agent
-from langchain_google_vertexai import VertexAIEmbeddings
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_community.vectorstores import FAISS
 from typing import Dict
 
 INDEX_PATH = "./nutrition_index"
 vector_store = None
 if os.path.exists(INDEX_PATH):
-    embedding_model = VertexAIEmbeddings(model_name="text-embedding-004")
+    embedding_model = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
     vector_store = FAISS.load_local(INDEX_PATH, embedding_model, allow_dangerous_deserialization=True)
 
 def query_nutrition_kb(query: str) -> Dict[str, str]:

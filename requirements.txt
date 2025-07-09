@@ -5,4 +5,6 @@ langchain-community
 langchain-google-vertexai
 faiss-cpu
 python-dotenv
-google-cloud-storage 
+google-cloud-storage
+unstructured
+google-cloud-aiplatform 

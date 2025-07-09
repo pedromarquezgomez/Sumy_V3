@@ -35,5 +35,10 @@ RUN addgroup --system app && adduser --system --group app
 USER app
 
 ENV PATH="/app/venv/bin:$PATH"
+# Set default environment variables (can be overridden at runtime)
+ENV GOOGLE_CLOUD_PROJECT=""
+ENV VERTEX_AI_LOCATION="us-central1"
+ENV GOOGLE_APPLICATION_CREDENTIALS=""
+
 EXPOSE 8080
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"] 
