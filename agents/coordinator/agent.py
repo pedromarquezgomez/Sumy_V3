@@ -1,9 +1,9 @@
 # coordinator_agent/agent.py
 import os
 from google.adk.agents import Agent
-from culinary_agent.agent import root_agent as culinary_agent
-from nutrition_agent.agent import root_agent as nutrition_agent
-from sumiller_agent.agent import root_agent as sumiller_agent
+from agents.culinary.agent import root_agent as culinary_agent
+from agents.nutrition.agent import root_agent as nutrition_agent
+from agents.sumiller.agent import root_agent as sumiller_agent
 
 # Configurar variables de entorno para Vertex AI
 os.environ['GOOGLE_GENAI_USE_VERTEXAI'] = 'true'

@@ -10,7 +10,7 @@ os.environ['GOOGLE_GENAI_USE_VERTEXAI'] = 'true'
 os.environ['GOOGLE_CLOUD_PROJECT'] = os.getenv("GOOGLE_CLOUD_PROJECT", "maitre-digital")
 os.environ['GOOGLE_CLOUD_LOCATION'] = os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")
 
-INDEX_PATH = "./nutrition_index"
+INDEX_PATH = "./indexes/nutrition"
 vector_store = None
 if os.path.exists(INDEX_PATH):
     embedding_model = VertexAIEmbeddings(model_name="text-embedding-004")
