@@ -17,18 +17,13 @@ WORKDIR /app
 COPY --from=builder /app/venv /app/venv
 
 # Copia todos los directorios de los agentes y el punto de entrada
-COPY coordinator_agent/ ./coordinator_agent/
-COPY culinary_agent/ ./culinary_agent/
-COPY nutrition_agent/ ./nutrition_agent/
-COPY sumiller_agent/ ./sumiller_agent/
+COPY agents/ ./agents/
 COPY main.py .
 COPY fleet.yaml .
+COPY adk_config.py .
 
-# Copia los índices vectoriales que se generarán con ingest.py
-# Debes ejecutar 'python ingest.py' antes de construir la imagen
-COPY culinary_index/ ./culinary_index/
-COPY enology_index/ ./enology_index/
-COPY nutrition_index/ ./nutrition_index/
+# Copia los índices vectoriales que se generaron con data_ingestion/ingest.py
+COPY indexes/ ./indexes/
 
 # Ejecuta la aplicación como un usuario no-root
 RUN addgroup --system app && adduser --system --group app

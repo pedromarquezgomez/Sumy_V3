@@ -16,6 +16,12 @@ class VinosJsonLoader(BaseLoader):
             content = f"Nombre del Vino: {vino.get('name', 'N/A')}\n"
             content += f"Tipo: {vino.get('type', 'N/A')}, Región: {vino.get('region', 'N/A')}\n"
             content += f"Bodega: {vino.get('winery', 'N/A')}\n"
+            content += f"Graduación: {vino.get('alcohol', 'N/A')}% vol.\n"
+            content += f"Precio: {vino.get('price', 'N/A')}€\n"
+            content += f"Temperatura de servicio: {vino.get('temperature', 'N/A')}\n"
+            content += f"Varietal: {vino.get('grape', 'N/A')}\n"
+            content += f"Puntuación: {vino.get('rating', 'N/A')}/100\n"
+            content += f"Crianza: {vino.get('crianza', 'N/A')}\n"
             content += f"Maridaje: {vino.get('pairing', 'N/A')}\n"
             content += f"Descripción: {vino.get('description', 'N/A')}"
             metadata = {"source": self.file_path, "wine_name": vino.get('name', 'N/A')}

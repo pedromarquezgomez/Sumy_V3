@@ -5,7 +5,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import DirectoryLoader
 from langchain_community.vectorstores import FAISS
 # Importación actualizada desde el mismo directorio de ingesta
-from .json_wine_loader import VinosJsonLoader
+from data_ingestion.json_wine_loader import VinosJsonLoader
 # --- Constantes de Rutas ---
 # Rutas relativas desde la raíz del proyecto
 KNOWLEDGE_BASE_DIR = "./knowledge_base"
