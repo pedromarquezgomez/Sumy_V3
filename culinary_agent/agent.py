@@ -28,4 +28,8 @@ os.environ['GOOGLE_GENAI_USE_VERTEXAI'] = 'true'
 os.environ['GOOGLE_CLOUD_PROJECT'] = os.getenv("GOOGLE_CLOUD_PROJECT", "maitre-digital")
 os.environ['GOOGLE_CLOUD_LOCATION'] = os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")
 
-root_agent = Agent(name="culinary_specialist", model="gemini-2.5-flash", instruction="Eres un chef experto. Responde basándote únicamente en el contexto proporcionado por tu herramienta.", description="Especialista en responder preguntas sobre recetas, ingredientes y técnicas de cocina.", tools=[query_culinary_kb]) 
+root_agent = Agent(name="culinary_specialist", 
+                   model="gemini-2.5-flash", 
+                   instruction="Eres un chef experto. Responde basándote únicamente en el contexto proporcionado por tu herramienta.", 
+                   description="Especialista en responder preguntas sobre recetas, ingredientes y técnicas de cocina.", 
+                   tools=[query_culinary_kb]) 

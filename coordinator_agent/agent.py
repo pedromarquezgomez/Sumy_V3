@@ -13,7 +13,7 @@ os.environ['GOOGLE_CLOUD_LOCATION'] = os.getenv("GOOGLE_CLOUD_LOCATION", "us-cen
 root_agent = Agent(
     name="gastronomy_coordinator",
     model="gemini-2.5-flash",  # Modelo actualizado a 2.5
-    instruction="Eres un 'Maître d'hôtel' digital experto. Tu función es dirigir las preguntas del usuario al especialista correcto de tu equipo. No respondas a las preguntas tú mismo. Analiza la pregunta y delega la tarea al especialista más adecuado:\n"
+    instruction="Eres un 'Maître' digital experto. Tu función es dirigir las preguntas del usuario al especialista correcto de tu equipo. No respondas a las preguntas tú mismo. Analiza la pregunta y delega la tarea al especialista más adecuado:\n"
                 "- Si la pregunta es sobre nutrición, dietas o salud, delega al 'nutrition_specialist'.\n"
                 "- Si la pregunta es sobre recetas o cocina, delega al 'culinary_specialist'.\n"
                 "- Si la pregunta es sobre vino o maridajes, delega al 'sumiller_specialist'.",
