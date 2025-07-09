@@ -3,6 +3,7 @@ uvicorn
 langchain
 langchain-community
 langchain-google-vertexai
+langchain-google-genai
 faiss-cpu
 python-dotenv
 google-cloud-storage
