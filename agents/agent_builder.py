@@ -62,6 +62,18 @@ def create_specialist_agent(name: str, description: str, instruction: str, index
     
     final_instruction = instruction.format(tool_name=tool_name)
 
+    # Añadir instrucción para el logging de trazas en el frontend
+    trace_instruction = """REGLA DE TRAZABILIDAD FINAL:
+Después de generar tu respuesta final en español, SIEMPRE debes añadir al final un bloque de datos para trazabilidad. Este bloque NUNCA debe ser visible para el usuario.
+Usa este formato exacto, reemplazando los valores:
+<span data-trace-info='{{"agent_name": "{agent_name}", "source": "...", "tool_used": "...", "rag_context": "..."}}' style='display:none;'></span>
+
+- agent_name: Tu nombre, '{agent_name}'.
+- source: Si has usado la herramienta {tool_name} para obtener la respuesta, pon 'RAG'. Si no la has usado o no has encontrado nada, pon 'LLM'.
+- tool_used: El nombre de la herramienta que has usado, '{tool_name}', o 'none' si no la usaste.
+- rag_context: El CONTEXTO COMPLETO que obtuviste de la herramienta. Debe ser el texto exacto, escapando las comillas dobles con \"\". Si no obtuviste contexto, pon 'none'."""
+    final_instruction += "\n\n" + trace_instruction.format(agent_name=name, tool_name=tool_name)
+
     return Agent(
         name=name,
         model="gemini-2.5-flash",
