@@ -37,8 +37,8 @@ docker stop $CONTAINER_NAME 2>/dev/null || true
 docker rm $CONTAINER_NAME 2>/dev/null || true
 
 # Construir la imagen Docker
-echo "🏗️  Construyendo la imagen Docker..."
-docker build -t $IMAGE_NAME .
+echo "🏗️  Construyendo la imagen Docker (sin caché)..."
+docker build --no-cache -t $IMAGE_NAME .
 if [ $? -ne 0 ]; then
     echo "❌ Error construyendo la imagen Docker"
     exit 1

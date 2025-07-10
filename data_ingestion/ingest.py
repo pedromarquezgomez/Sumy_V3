@@ -1,5 +1,10 @@
 import os
+import sys
 import shutil
+
+# Añadir el directorio raíz del proyecto al path para resolver importaciones
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 from langchain_google_vertexai import VertexAIEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import DirectoryLoader
@@ -26,14 +31,14 @@ def ingest_text_files(domain_path: str, chunk_strategy: str) -> list:
         print("--> Aplicando estrategia de chunking semántico (párrafos).")
         splitter = RecursiveCharacterTextSplitter(
             separators=["\n\n", "\n", ". ", " "],
-            chunk_size=1500,
-            chunk_overlap=250
+            chunk_size=1000,  # Reducido para chunks más densos
+            chunk_overlap=150   # Aumentado proporcionalmente
         )
     else:
         print("--> Aplicando estrategia de chunking por defecto.")
         splitter = RecursiveCharacterTextSplitter(
-            chunk_size=1000,
-            chunk_overlap=100
+            chunk_size=500,   # Reducido para mayor especificidad
+            chunk_overlap=100   # Aumentado para mejor contexto entre chunks
         )
 
     chunks = splitter.split_documents(documents)
