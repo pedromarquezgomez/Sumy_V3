@@ -36,12 +36,13 @@ def create_specialist_agent(name: str, description: str, instruction: str, index
 
     def query_knowledge_base(query: str) -> Dict[str, str]:
         """
-        Consulta la base de conocimientos vectorial (FAISS).
+        Consulta la base de conocimientos vectorial (FAISS) con manejo de errores mejorado.
         """
         if not vector_store:
             return {
                 "status": "error", 
-                "context": f"La base de conocimientos para '{name}' no está disponible."
+                "context": f"La base de conocimientos para '{name}' no está disponible temporalmente.",
+                "suggestion": "Como especialista, puedo intentar ayudarte con información general sobre el tema. ¿Podrías reformular tu consulta de manera más específica?"
             }
         
         try:
@@ -52,12 +53,25 @@ def create_specialist_agent(name: str, description: str, instruction: str, index
                 formatted_context.append(f"--- RESULTADO {i} ---\n{content}")
             
             if not formatted_context:
-                return {"status": "success", "context": "No se encontraron resultados relevantes."}
+                return {
+                    "status": "partial", 
+                    "context": f"No encontré información específica sobre '{query}' en mi base de conocimientos actual.",
+                    "suggestion": f"Como especialista en {name.replace('_specialist', '')}, puedo sugerir consultas relacionadas o ayudarte con aspectos generales del tema."
+                }
 
-            return {"status": "success", "context": "\n\n".join(formatted_context)}
+            return {
+                "status": "success", 
+                "context": "\n\n".join(formatted_context),
+                "source": "knowledge_base",
+                "query_used": query
+            }
 
         except Exception as e:
-            return {"status": "error", "context": f"Ocurrió un error al consultar la base de conocimientos: {e}"}
+            return {
+                "status": "error", 
+                "context": f"Ocurrió un problema técnico al consultar mi base de conocimientos: {str(e)}",
+                "suggestion": "Por favor, intenta reformular tu consulta o pregúntame algo más general sobre el tema."
+            }
 
     def query_usda_nutrition_api(food_query: str) -> Dict[str, str]:
         """
@@ -75,16 +89,26 @@ def create_specialist_agent(name: str, description: str, instruction: str, index
             # Formatear resultados
             formatted_data = usda_client.format_nutrition_data(search_results)
             
+            if "No se encontraron alimentos" in formatted_data:
+                return {
+                    "status": "partial",
+                    "api_data": f"No encontré datos específicos para '{food_query}' en la base de datos USDA.",
+                    "suggestion": "Puedo buscar alimentos similares o proporcionarte información nutricional general. ¿Podrías ser más específico con el nombre del alimento?",
+                    "source": "USDA FoodData Central API"
+                }
+            
             return {
                 "status": "success",
                 "api_data": formatted_data,
-                "source": "USDA FoodData Central API"
+                "source": "USDA FoodData Central API",
+                "query_used": food_query
             }
             
         except Exception as e:
             return {
                 "status": "error",
-                "api_data": f"Error consultando API USDA: {str(e)}",
+                "api_data": f"No pude acceder a la base de datos USDA en este momento: {str(e)}",
+                "suggestion": "Puedo proporcionarte información nutricional general basada en mi conocimiento. ¿Te gustaría que consulte mi base de conocimientos interna?",
                 "source": "API Error"
             }
 
@@ -102,23 +126,30 @@ def create_specialist_agent(name: str, description: str, instruction: str, index
         api_tool_name=api_tool_name
     )
 
-    # Añadir instrucción para el logging de trazas
-    trace_instruction = """REGLA DE TRAZABILIDAD FINAL:
-Después de generar tu respuesta final en español, SIEMPRE debes añadir al final un bloque de datos para trazabilidad. Este bloque NUNCA debe ser visible para el usuario.
-Usa este formato exacto, reemplazando los valores:
-<span data-trace-info='{{"agent_name": "{agent_name}", "source": "...", "tools_used": "...", "rag_context": "...", "api_context": "..."}}' style='display:none;'></span>
+    # Añadir instrucción mejorada para el logging de trazas
+    trace_instruction = f"""
+SISTEMA DE TRAZABILIDAD PROFESIONAL:
+Después de tu respuesta final, añade información de trazabilidad invisible para mejorar el servicio:
 
-- agent_name: Tu nombre, '{agent_name}'.
-- source: Si has usado herramientas, especifica cuáles: 'RAG', 'API', 'RAG+API', o 'LLM' si no usaste ninguna.
-- tools_used: Lista las herramientas usadas: '{kb_tool_name}', '{api_tool_name}', o 'none'.
-- rag_context: El contexto de la base de conocimientos si lo usaste, o 'none'.
-- api_context: El contexto de la API USDA si lo usaste, o 'none'."""
+<span data-trace='{{
+    "agent": "{name}",
+    "tools_used": ["herramientas_utilizadas"],
+    "confidence": "alta/media/baja",
+    "sources": ["fuentes_consultadas"],
+    "response_type": "completa/parcial/derivada",
+    "suggestions": ["posibles_seguimientos"]
+}}' style='display:none;'></span>
+
+- agent: Tu nombre, '{name}'
+- tools_used: Lista las herramientas usadas: '{kb_tool_name}', '{api_tool_name}', o 'none'
+- confidence: Evalúa tu nivel de confianza en la respuesta
+- sources: Especifica las fuentes: 'knowledge_base', 'usda_api', 'general_knowledge', o 'multiple'
+- response_type: 'completa' si proporcionaste toda la información, 'parcial' si falta algo, 'derivada' si usaste conocimiento general
+- suggestions: Sugiere posibles consultas de seguimiento que podrían interesar al usuario
+
+Esto nos ayuda a mejorar continuamente la experiencia gastronómica."""
     
-    final_instruction += "\n\n" + trace_instruction.format(
-        agent_name=name, 
-        kb_tool_name=kb_tool_name,
-        api_tool_name=api_tool_name
-    )
+    final_instruction += "\n\n" + trace_instruction
 
     return Agent(
         name=name,
