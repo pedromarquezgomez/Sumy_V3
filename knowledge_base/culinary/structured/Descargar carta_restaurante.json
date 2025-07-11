@@ -1,0 +1,292 @@
+[
+  {
+    "category": "SELECCIÓN Y ENSALADAS",
+    "dishes": [
+      {
+        "dish_name": "OSTRAS FRANCESAS KOI N2",
+        "description": "Al Natural o a la Mignonete (un.)",
+        "price_eur": 6.5
+      },
+      {
+        "dish_name": "SURTIDO DE QUESOS ASTURIANOS",
+        "description": "Cabrales, Gamoneu, La Peral,\n3 Leches de Pria (120gr)",
+        "price_eur": 16.0
+      },
+      {
+        "dish_name": "SURTIDO DE QUESOS ANDALUCES",
+        "description": "Torta de Argudo, Cuajada láctica de cabra\nLa Hortelana, Olavidia de quesos y besos, y curado\ncon salvado de trigo de Doña Casilda (120gr)",
+        "price_eur": 19.0
+      },
+      {
+        "dish_name": "QUESO CURADO DE OVEJA",
+        "description": "Manchego, Nueces y Uvas Pasas (150gr)",
+        "price_eur": 19.0
+      },
+      {
+        "dish_name": "JAMÓN IBÉRICO DE BELLOTA",
+        "description": "100gr",
+        "price_eur": 30.0
+      },
+      {
+        "dish_name": "ENSALADA “EL HIGUERÓN”",
+        "description": "Lechuga de 21 días, Cebolla Roja, Huevo Mollet,\nTomate, Esparrago Blanco, Puerro, Pimientos\ndel Piquillo, Atún y Vinagreta de Sidra",
+        "price_eur": 18.0
+      },
+      {
+        "dish_name": "PATE DE CENTOLLO GRATINADO",
+        "description": "Nuestro Clásico con Centollo y Buey de Mar de Oviñana",
+        "price_eur": 18.0
+      },
+      {
+        "dish_name": "ENSALADILLA RUSA",
+        "description": "con Ventresca de Atún y Mahonesa de Aove",
+        "price_eur": 16.0
+      },
+      {
+        "dish_name": "ENSALADA DE TOMATES",
+        "description": "con Ventresca de Atún Rojo Ahumada",
+        "price_eur": 18.0
+      },
+      {
+        "dish_name": "MILHOJAS DE FOIE",
+        "description": "Foie, Manzana, Piña y Cebolla Caramelizada\ncon Puré de Frutos Rojos al Vermú y Verduras Encurtidas",
+        "price_eur": 25.0
+      },
+      {
+        "dish_name": "ATÚN ROJO EN TARTAR PICANTE",
+        "description": "con huevo frito de corral, Yakiniku y Kimchi",
+        "price_eur": 29.0
+      },
+      {
+        "dish_name": "PIMIENTOS ASADOS A LA BRASA",
+        "description": "con Yema de Huevo y Chips de Ajo",
+        "price_eur": 17.0
+      },
+      {
+        "dish_name": "ALBÓNDIGAS DE RABO CON SETAS",
+        "description": "en su Salsa con Puré de Patatas al AOVE (4 ud.)",
+        "price_eur": 27.0
+      },
+      {
+        "dish_name": "PINTXOS DE FOIE",
+        "description": "a la Plancha sobre Tosta y Manzana al PX (2 ud.)",
+        "price_eur": 22.0
+      },
+      {
+        "dish_name": "VIEIRAS CON CAVIAR DE ERIZOS",
+        "description": "Vieiras Gratinadas, Caviar de Erizo de Mar,\n\nNata, Queso (2 ud.)",
+        "price_eur": 18.0
+      },
+      {
+        "dish_name": "CORDERO LECHAL",
+        "description": "(Paletilla)",
+        "price_eur": 32.0
+      },
+      {
+        "dish_name": "COCHINILLO LECHAL CRUJIENTE",
+        "description": "(Pierna)",
+        "price_eur": 32.0
+      },
+      {
+        "dish_name": "BACALAO EN TACO",
+        "description": "con Pisto Andaluz y Crema de Albahaca",
+        "price_eur": 29.0
+      },
+      {
+        "dish_name": "GUARNICIONES EXTRAS",
+        "description": "Ensalada Lechugas Frescas\n\nPimientos de Padrón - Puré de Patatas al Aove - Patatas Fritas",
+        "price_eur": 4.5
+      },
+      {
+        "dish_name": "SALSAS EXTRAS",
+        "description": "Queso Cabrales, Pimienta,\nMálaga Virgen",
+        "price_eur": 4.0
+      }
+    ]
+  },
+  {
+    "category": "Guisos tradicionales",
+    "dishes": [
+      {
+        "dish_name": "Fabada Asturiana",
+        "description": "Fabes, Chorizo, Morcilla, Lacón",
+        "price_eur": 26.0
+      },
+      {
+        "dish_name": "Fabes con Almejas",
+        "description": "Fabes con Almejas y Guindilla Vasca",
+        "price_eur": 28.0
+      },
+      {
+        "dish_name": "Patatas con Langostinos",
+        "description": "con Caldo de Marisco y Guindilla Vasca",
+        "price_eur": 23.0
+      },
+      {
+        "dish_name": "Arroz Gallo de Corral",
+        "description": "con Sabadiego, Setas y Judías Verdes\n(precio por persona, mínimo 2 pax)",
+        "price_eur": 21.0
+      }
+    ]
+  },
+  {
+    "category": "Nuestra parrilla",
+    "dishes": [
+      {
+        "dish_name": "Pulpo a las Brasas",
+        "description": "con Jugo de Fabada Asturiana y Pimientos",
+        "price_eur": 33.0
+      },
+      {
+        "dish_name": "Pixín",
+        "description": "con su Refrito de Ajo y Guindilla",
+        "price_eur": 43.0
+      },
+      {
+        "dish_name": "Lubina Salvaje",
+        "description": "en Trancha con su Refrito de Ajo y Guindilla",
+        "price_eur": 35.0
+      },
+      {
+        "dish_name": "Presa Ibérica de Bellota",
+        "description": "",
+        "price_eur": 29.0
+      },
+      {
+        "dish_name": "Chuletitas de Cordero Lechal",
+        "description": "",
+        "price_eur": 31.0
+      },
+      {
+        "dish_name": "Solomillo",
+        "description": "de Ternera Nacional Añojo (12-15 meses)",
+        "price_eur": 35.0
+      },
+      {
+        "dish_name": "Medallón de Solomillo",
+        "description": "a las dos salsas, Mostaza con Colmenillas \ny de Málaga Virgen",
+        "price_eur": 35.0
+      },
+      {
+        "dish_name": "Solomillo Asturiano",
+        "description": "de Añojo Para 2 Personas (400grs.)",
+        "price_eur": 68.0
+      },
+      {
+        "dish_name": "Ribeye de Vaca madurada",
+        "description": "Maduración Mínima 30 Días",
+        "price_eur": 56.0
+      },
+      {
+        "dish_name": "Picantón Marinado",
+        "description": "a las brasas con especias y citrícos",
+        "price_eur": 24.0
+      },
+      {
+        "dish_name": "Bacalao en taco",
+        "description": "con Pisto Andaluz y Crema de Albahaca",
+        "price_eur": 30.0
+      },
+      {
+        "dish_name": "Cordero Lechal",
+        "description": "(Paletilla)",
+        "price_eur": 32.0
+      },
+      {
+        "dish_name": "Cochinillo Lechal Crujiente",
+        "description": "(Pierna)",
+        "price_eur": 34.0
+      },
+      {
+        "dish_name": "Guarniciones Extras",
+        "description": "Ensalada Lechugas Frescas-Pimientos de Padrón\nPuré de Patatas al Aove - Patatas Fritas",
+        "price_eur": 4.5
+      },
+      {
+        "dish_name": "Salsas Extras",
+        "description": "Oporto, Queso Cabrales, Pimienta, Bearnesa",
+        "price_eur": 4.0
+      }
+    ]
+  },
+  {
+    "category": "Del Repostero",
+    "dishes": [
+      {
+        "dish_name": "Frutas de Temporada",
+        "description": "(Piña, Melón…)",
+        "price_eur": 7.0
+      },
+      {
+        "dish_name": "Arroz con Leche",
+        "description": "(Caramelizado al Estilo Asturiano)",
+        "price_eur": 10.0
+      },
+      {
+        "dish_name": "Brownie de Chocolate",
+        "description": "(Con Nueces, Helado de Vainilla y Salsa de Chocolate Caliente)",
+        "price_eur": 11.0
+      },
+      {
+        "dish_name": "Mousse de Higos",
+        "description": "(con Crema de Leche y Acompañado de Frutos Rojos)",
+        "price_eur": 10.0
+      },
+      {
+        "dish_name": "Tarta “Florentina”",
+        "description": "(Con Base de Galleta María, Crema Ligera de Queso, y Caramelo)",
+        "price_eur": 10.0
+      },
+      {
+        "dish_name": "Tarta de Pistacho",
+        "description": "(Con Toffee Salado y Helado de Leche Cruda de Oveja)",
+        "price_eur": 10.0
+      },
+      {
+        "dish_name": "Sorbete de Limón al Cava",
+        "description": "",
+        "price_eur": 10.0
+      },
+      {
+        "dish_name": "Helados Variados",
+        "description": "Vainilla, Chocolate, Turrón, Fresa, nata, Limón",
+        "price_eur": 10.0
+      },
+      {
+        "dish_name": "Lingote de Chocolates",
+        "description": "Belgas con Cremoso al Caramelo y Helado de Nata",
+        "price_eur": 10.0
+      },
+      {
+        "dish_name": "Menade Sauvignon Blanc Dulce",
+        "description": "",
+        "price_eur": 5.0
+      },
+      {
+        "dish_name": "V Dulce De Invierno",
+        "description": "D.O. Rueda",
+        "price_eur": 9.0
+      },
+      {
+        "dish_name": "PX Reserva de la Familia",
+        "description": "",
+        "price_eur": 6.0
+      },
+      {
+        "dish_name": "Jarel",
+        "description": "",
+        "price_eur": 7.0
+      },
+      {
+        "dish_name": "Niepoort LBV",
+        "description": "",
+        "price_eur": 7.0
+      },
+      {
+        "dish_name": "Cuvee 79",
+        "description": "",
+        "price_eur": 8.0
+      }
+    ]
+  }
+]

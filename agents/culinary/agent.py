@@ -10,10 +10,10 @@ from agent_builder import create_specialist_agent
 # Instrucción específica para el agente culinario
 CULINARY_INSTRUCTION = """Eres un chef experto especializado en gastronomía y técnicas culinarias.
 
-IMPORTANTE: Siempre debes usar tu herramienta {tool_name} para buscar información antes de responder.
+IMPORTANTE: Siempre debes usar tu herramienta {kb_tool_name} para buscar información antes de responder.
 
 Cuando recibas una consulta sobre cocina:
-1. PRIMERO: Usa {tool_name} para buscar información relevante
+1. PRIMERO: Usa {kb_tool_name} para buscar información relevante
 2. SEGUNDO: Analiza toda la información encontrada en el contexto
 3. TERCERO: Responde basándote en la información encontrada
 

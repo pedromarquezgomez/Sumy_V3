@@ -11,6 +11,7 @@ from langchain_community.document_loaders import DirectoryLoader
 from langchain_community.vectorstores import FAISS
 # Importación actualizada desde el mismo directorio de ingesta
 from data_ingestion.json_wine_loader import VinosJsonLoader
+from data_ingestion.json_culinary_loader import CulinaryJsonLoader
 # --- Constantes de Rutas ---
 # Rutas relativas desde la raíz del proyecto
 KNOWLEDGE_BASE_DIR = "./knowledge_base"
@@ -27,7 +28,25 @@ def ingest_text_files(domain_path: str, chunk_strategy: str) -> list:
         print("-> No se encontraron archivos de texto.")
         return []
 
-    if chunk_strategy == "semantic":
+    if chunk_strategy == "nutrition_optimized":  # ✅ NUEVA ESTRATEGIA
+        print("--> Aplicando estrategia de chunking optimizada para nutrición.")
+        splitter = RecursiveCharacterTextSplitter(
+            separators=[
+                "\n---\n",         # Separadores de sección en markdown
+                "\n## ",           # Headers principales 
+                "\n### ",          # Subheaders
+                "\n#### ",         # Sub-subheaders
+                "\n| ",            # Tablas
+                "\n- **",          # Listas enfatizadas
+                "\n\n",            # Párrafos
+                ". ",              # Oraciones
+                " "                # Palabras
+            ],
+            chunk_size=1000,       # Más grande para tablas completas
+            chunk_overlap=250,     # Overlap generoso
+            keep_separator=True    # Mantiene separadores para contexto
+        )
+    elif chunk_strategy == "semantic":
         print("--> Aplicando estrategia de chunking semántico (párrafos).")
         splitter = RecursiveCharacterTextSplitter(
             separators=["\n\n", "\n", ". ", " "],
@@ -45,14 +64,20 @@ def ingest_text_files(domain_path: str, chunk_strategy: str) -> list:
     print(f"--> Se dividieron en {len(chunks)} chunks.")
     return chunks
 
-def ingest_structured_json(domain_path: str) -> list:
+def ingest_structured_json(domain_path: str, data_type: str = "wine") -> list:
     """Carga documentos desde un archivo JSON estructurado (un doc por item)."""
     print(f"-> Procesando archivo JSON desde: {domain_path}")
     # Asumimos que solo hay un archivo JSON en el directorio
     try:
         json_file_name = os.listdir(domain_path)[0]
         json_file_path = os.path.join(domain_path, json_file_name)
-        loader = VinosJsonLoader(file_path=json_file_path)
+        
+        # Usar el loader apropiado según el tipo de datos
+        if data_type == "culinary":
+            loader = CulinaryJsonLoader(file_path=json_file_path)
+        else:
+            loader = VinosJsonLoader(file_path=json_file_path)
+            
         docs = loader.load()
         print(f"--> Se cargaron {len(docs)} documentos estructurados.")
         return docs
@@ -96,13 +121,18 @@ if __name__ == "__main__":
     if os.path.exists(culinary_index_path):
         shutil.rmtree(culinary_index_path)
 
-    culinary_docs_path = os.path.join(KNOWLEDGE_BASE_DIR, "culinary")
-    culinary_docs = ingest_text_files(culinary_docs_path, "default")
+    culinary_unstructured_path = os.path.join(KNOWLEDGE_BASE_DIR, "culinary", "unstructured")
+    culinary_structured_path = os.path.join(KNOWLEDGE_BASE_DIR, "culinary", "structured")
 
-    if culinary_docs:
-        culinary_store = FAISS.from_documents(culinary_docs, embedding_model)
+    culinary_unstructured_docs = ingest_text_files(culinary_unstructured_path, "default")
+    culinary_structured_docs = ingest_structured_json(culinary_structured_path, "culinary")
+    
+    all_culinary_docs = culinary_unstructured_docs + culinary_structured_docs
+
+    if all_culinary_docs:
+        culinary_store = FAISS.from_documents(all_culinary_docs, embedding_model)
         culinary_store.save_local(culinary_index_path)
-        print(f"✅ Índice Culinario creado con {len(culinary_docs)} chunks en: {culinary_index_path}")
+        print(f"✅ Índice Culinario unificado creado con {len(all_culinary_docs)} documentos en: {culinary_index_path}")
     else:
         print("⚠️ No se encontraron documentos para crear el índice Culinario.")
 
@@ -113,7 +143,8 @@ if __name__ == "__main__":
         shutil.rmtree(nutrition_index_path)
 
     nutrition_docs_path = os.path.join(KNOWLEDGE_BASE_DIR, "nutrition")
-    nutrition_docs = ingest_text_files(nutrition_docs_path, "default")
+    nutrition_docs = ingest_text_files(nutrition_docs_path, "nutrition_optimized")
+
     
     if nutrition_docs:
         nutrition_store = FAISS.from_documents(nutrition_docs, embedding_model)
