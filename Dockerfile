@@ -19,9 +19,7 @@ COPY --from=builder /app/venv /app/venv
 # Copia todos los directorios de los agentes y el punto de entrada
 COPY agents/ ./agents/
 COPY main.py .
-COPY fleet.yaml .
 COPY adk_config.py .
-COPY public/ ./public/
 
 # Copia los índices vectoriales que se generaron con data_ingestion/ingest.py
 COPY indexes/ ./indexes/

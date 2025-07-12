@@ -1,3 +1,0 @@
-# yaml-language-server: disable
-
-root_agent: agents.coordinator.agent
