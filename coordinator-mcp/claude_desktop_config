@@ -1,6 +1,6 @@
 {
   "mcpServers": {
-    "hola-mundo-server": {
+    "coordinator-mcp": {
       "command": "/Users/pedro/Sumy_V3/coordinator-mcp/run_server.sh",
       "args": []
     }
