@@ -1,0 +1,1 @@
+# gastronomy_coordinator agent package
