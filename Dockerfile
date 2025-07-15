@@ -1,38 +1,30 @@
-# Dockerfile
+# Dockerfile para Sumy_V3 ADK
+FROM python:3.11-slim
 
-# --- Etapa 1: Builder ---
-# Instala dependencias en un entorno virtual
-FROM python:3.11-slim-bookworm AS builder
+# Establecer directorio de trabajo
 WORKDIR /app
-ENV VIRTUAL_ENV=/app/venv
-RUN python -m venv $VIRTUAL_ENV
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+
+# Instalar dependencias del sistema
+RUN apt-get update && apt-get install -y \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copiar archivo de dependencias
 COPY requirements.txt .
+
+# Instalar dependencias Python
 RUN pip install --no-cache-dir -r requirements.txt
 
-# --- Etapa 2: Final ---
-# Crea la imagen final, limpia y segura
-FROM python:3.11-slim-bookworm AS final
-WORKDIR /app
-COPY --from=builder /app/venv /app/venv
+# Copiar el código de la aplicación
+COPY . .
 
-# Copia todos los directorios de los agentes y el punto de entrada
-COPY agents/ ./agents/
-COPY main.py .
-COPY adk_config.py .
+# Configurar variables de entorno
+ENV GOOGLE_GENAI_USE_VERTEXAI=true
+ENV GOOGLE_CLOUD_PROJECT=maitre-digital
+ENV GOOGLE_CLOUD_LOCATION=us-central1
 
-# Copia los índices vectoriales que se generaron con data_ingestion/ingest.py
-COPY indexes/ ./indexes/
-
-# Ejecuta la aplicación como un usuario no-root
-RUN addgroup --system app && adduser --system --group app
-USER app
-
-ENV PATH="/app/venv/bin:$PATH"
-# Set default environment variables (can be overridden at runtime)
-ENV GOOGLE_CLOUD_PROJECT=""
-ENV VERTEX_AI_LOCATION="us-central1"
-ENV GOOGLE_APPLICATION_CREDENTIALS=""
-
+# Exponer puerto
 EXPOSE 8080
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"] 
+
+# Comando para ejecutar la aplicación
+CMD ["python", "hybrid_main.py"]

@@ -1,31 +1,21 @@
-# main.py
+# simple_main.py - Servidor FastAPI sin ADK Web UI
 import os
 import asyncio
-from google.adk.cli.fast_api import get_fast_api_app
 from fastapi import FastAPI, HTTPException
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
-from starlette.middleware.base import BaseHTTPMiddleware
-from starlette.responses import StreamingResponse
+from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 
-# Importar el nuevo runner ADK
+# Importar nuestro runner
 from adk_runner import StatefulGastronomyRunner
 
-# Configuración de directorios
-AGENTS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "agents")
-
-# Crear la aplicación FastAPI base de ADK
-app = get_fast_api_app(
-    agents_dir=AGENTS_DIR,
-    web=True
-)
+# Crear aplicación FastAPI simple
+app = FastAPI(title="Sumy_V3 ADK Gastronomy API", version="2.0.0")
 
 # Configurar CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # En producción, especificar dominios específicos
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -46,12 +36,18 @@ class GastronomyResponse(BaseModel):
     user_id: str
     agent_used: str = "gastronomy_coordinator"
 
-# Endpoints adicionales para el sistema gastronómico
+# Endpoints
+@app.get("/", response_class=HTMLResponse)
+def root():
+    """Interfaz web interactiva"""
+    with open("web_ui.html", "r", encoding="utf-8") as f:
+        return f.read()
+
 @app.get("/health")
 def health_check():
     return {
         "status": "ok",
-        "system": "Sumy_V3_ADK",
+        "system": "Sumy_V3_ADK_Simple",
         "coordinator": gastronomy_runner.runner.agent.name,
         "sub_agents": len(gastronomy_runner.runner.agent.sub_agents),
         "active_sessions": len(gastronomy_runner.active_sessions)
@@ -60,7 +56,7 @@ def health_check():
 @app.post("/gastronomy/query", response_model=GastronomyResponse)
 async def gastronomy_query(query_data: GastronomyQuery):
     """
-    Endpoint principal para consultas gastronómicas usando la nueva arquitectura ADK.
+    Endpoint principal para consultas gastronómicas usando la arquitectura ADK simple.
     """
     try:
         # Generar session_id si no se proporciona
@@ -79,7 +75,7 @@ async def gastronomy_query(query_data: GastronomyQuery):
             if hasattr(event, 'content') and event.content:
                 response_parts.append(str(event.content))
         
-        response_text = "\n".join(response_parts) if response_parts else "No se pudo generar una respuesta."
+        response_text = "\\n".join(response_parts) if response_parts else "No se pudo generar una respuesta."
         
         return GastronomyResponse(
             response=response_text,
@@ -99,29 +95,9 @@ async def list_sessions():
     """Lista todas las sesiones activas"""
     return await gastronomy_runner.list_active_sessions()
 
-@app.get("/gastronomy/session/{session_id}/state")
-async def get_session_state(session_id: str, user_id: str = "guest"):
-    """Obtiene el estado de una sesión específica"""
-    try:
-        state = await gastronomy_runner.get_session_state(user_id, session_id)
-        if state is None:
-            raise HTTPException(status_code=404, detail="Sesión no encontrada")
-        return {"session_id": session_id, "state": state}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-@app.delete("/gastronomy/session/{session_id}")
-async def cleanup_session(session_id: str):
-    """Limpia una sesión específica"""
-    try:
-        await gastronomy_runner.cleanup_session(session_id)
-        return {"message": f"Sesión {session_id} limpiada correctamente"}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
 @app.get("/gastronomy/test")
-async def test_adk_system():
-    """Endpoint de prueba para validar el sistema ADK"""
+async def test_system():
+    """Endpoint de prueba para validar el sistema"""
     try:
         # Ejecutar una consulta de prueba
         test_query = "¿Puedes recomendarme un vino tinto?"
@@ -146,12 +122,11 @@ async def test_adk_system():
             "system_status": "error"
         }
 
-# Información del sistema
 @app.get("/info")
 def system_info():
     """Información sobre el sistema ADK"""
     return {
-        "system": "Sumy_V3 con Google ADK",
+        "system": "Sumy_V3 con Google ADK (Simple)",
         "version": "2.0.0",
         "architecture": "Multi-Agent with Coordination",
         "coordinator": gastronomy_runner.runner.agent.name,
@@ -160,13 +135,14 @@ def system_info():
             "Delegación inteligente",
             "Gestión de estado",
             "Sesiones persistentes",
-            "Coordinación multi-agente"
+            "Coordinación multi-agente",
+            "API simple sin Web UI"
         ]
     }
 
-# Mantener compatibilidad con endpoints existentes
-print("🚀 Sumy_V3 con arquitectura ADK optimizada inicializado")
-print(f"🎩 Coordinador: {gastronomy_runner.runner.agent.name}")
-print(f"👥 Especialistas: {[agent.name for agent in gastronomy_runner.runner.agent.sub_agents]}")
-print("🌐 Servidor listo en: http://localhost:8000")
-print("📚 Documentación: http://localhost:8000/docs") 
+if __name__ == "__main__":
+    import uvicorn
+    print("🚀 Iniciando Sumy_V3 ADK Simple Server...")
+    print("🌐 Servidor disponible en: http://localhost:8000")
+    print("📚 Documentación: http://localhost:8000/docs")
+    uvicorn.run(app, host="0.0.0.0", port=8000)

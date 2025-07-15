@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rate Limit - Sumy_V3 ADK</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .rate-limit-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .rate-limit-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+        
+        .rate-limit-title {
+            color: #2c3e50;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        
+        .rate-limit-message {
+            color: #5a6c7d;
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        
+        .countdown-container {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .countdown-timer {
+            font-size: 2em;
+            font-weight: bold;
+            color: #3498db;
+            margin: 10px 0;
+        }
+        
+        .retry-button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .retry-button:hover {
+            background: #2980b9;
+        }
+        
+        .retry-button:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+        
+        .tips {
+            background: #e8f5e8;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: left;
+        }
+        
+        .tips h3 {
+            color: #2d5a2d;
+            margin-top: 0;
+        }
+        
+        .tips ul {
+            color: #2d5a2d;
+            margin: 10px 0;
+        }
+        
+        .tips li {
+            margin: 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="rate-limit-container">
+        <div class="rate-limit-icon">⏳</div>
+        <h1 class="rate-limit-title">Nivel Gratuito - Límite Alcanzado</h1>
+        
+        <div class="rate-limit-message">
+            <p><strong>¡Gracias por usar Sumy_V3 ADK!</strong></p>
+            <p>Estás usando el nivel gratuito de la aplicación. Para evitar saturar los servidores y garantizar una experiencia de calidad para todos, hemos implementado límites de uso.</p>
+        </div>
+        
+        <div class="countdown-container">
+            <p>Tiempo restante para la próxima consulta:</p>
+            <div class="countdown-timer" id="countdown">60</div>
+            <p>segundos</p>
+        </div>
+        
+        <button class="retry-button" id="retryButton" disabled onclick="retryRequest()">
+            Reintentar Consulta
+        </button>
+        
+        <div class="tips">
+            <h3>💡 Consejos para una mejor experiencia:</h3>
+            <ul>
+                <li><strong>Espera entre consultas:</strong> Deja pasar al menos 30 segundos entre preguntas</li>
+                <li><strong>Sé específico:</strong> Consultas más precisas obtienen mejores respuestas</li>
+                <li><strong>Usa la interfaz web:</strong> La ADK UI maneja mejor los límites automáticamente</li>
+                <li><strong>Prueba diferentes especialistas:</strong> Vinos 🍷, Cocina 🍳, Nutrición 🥗</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        let countdown = 60;
+        const countdownElement = document.getElementById('countdown');
+        const retryButton = document.getElementById('retryButton');
+        
+        function updateCountdown() {
+            countdownElement.textContent = countdown;
+            
+            if (countdown <= 0) {
+                retryButton.disabled = false;
+                retryButton.textContent = 'Reintentar Consulta';
+                retryButton.style.background = '#3498db';
+                return;
+            }
+            
+            countdown--;
+            setTimeout(updateCountdown, 1000);
+        }
+        
+        function retryRequest() {
+            // Regresar a la página anterior o recargar
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.reload();
+            }
+        }
+        
+        // Iniciar countdown
+        updateCountdown();
+        
+        // Mostrar mensaje personalizado según la hora
+        const hour = new Date().getHours();
+        let timeMessage = '';
+        
+        if (hour >= 6 && hour < 12) {
+            timeMessage = '🌅 Buenos días, estimado comensal';
+        } else if (hour >= 12 && hour < 18) {
+            timeMessage = '☀️ Buenas tardes, bienvenido';
+        } else {
+            timeMessage = '🌙 Buenas noches, es un placer atenderle';
+        }
+        
+        document.querySelector('.rate-limit-message p:first-child').innerHTML = 
+            `<strong>${timeMessage}</strong>`;
+    </script>
+</body>
+</html>

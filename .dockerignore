@@ -1,26 +1,36 @@
-# Git
-.git
-.gitignore
-
-# Entorno virtual local
-.venv/
-venv/
-
-# Archivos de caché de Python
+# Ignorar archivos innecesarios para el contenedor
 __pycache__/
-*.py[cod]
-
-# Archivos de configuración de IDEs
-.idea/
-.vscode/
-
-# Archivos de sistema operativo
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.git/
+.mypy_cache/
+.pytest_cache/
+.hypothesis/
 .DS_Store
-Thumbs.db
-
-# Base de datos local
-sessions.db
-sessions.db-journal
-
-# Archivos de entorno que contienen secretos
-.env 
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+coordinator-mcp/.venv/
+*.md
+simple_test_adk.py
+README.md
