@@ -40,7 +40,7 @@ class GastronomyResponse(BaseModel):
 @app.get("/", response_class=HTMLResponse)
 def root():
     """Interfaz web interactiva"""
-    with open("web_ui.html", "r", encoding="utf-8") as f:
+    with open("templates/web_ui.html", "r", encoding="utf-8") as f:
         return f.read()
 
 @app.get("/health")
